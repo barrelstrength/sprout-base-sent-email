@@ -7,8 +7,6 @@
 
 namespace barrelstrength\sproutbasesentemail;
 
-use barrelstrength\sproutbase\base\SproutDependencyInterface;
-use barrelstrength\sproutbase\base\SproutDependencyTrait;
 use barrelstrength\sproutbase\SproutBase;
 use barrelstrength\sproutbase\SproutBaseHelper;
 use barrelstrength\sproutbaseemail\SproutBaseEmailHelper;
@@ -34,8 +32,6 @@ use yii\mail\MailEvent;
  */
 class SproutBaseSentEmail extends Module
 {
-    use SproutDependencyTrait;
-
     /**
      * This Pro Edition value will be used to test for all pro plugins:
      * - Sprout Sent Email Pro
@@ -140,13 +136,5 @@ class SproutBaseSentEmail extends Module
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $e) {
             $e->roots['sprout-base-sent-email'] = $this->getBasePath().DIRECTORY_SEPARATOR.'templates';
         });
-    }
-
-    public function getSproutDependencies(): array
-    {
-        return [
-            SproutDependencyInterface::SPROUT_BASE,
-            SproutDependencyInterface::SPROUT_BASE_EMAIL
-        ];
     }
 }
