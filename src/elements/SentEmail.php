@@ -16,6 +16,7 @@ use barrelstrength\sproutbasesentemail\records\SentEmail as SentEmailRecord;
 use Craft;
 use craft\base\Element;
 use craft\elements\db\ElementQueryInterface;
+use craft\errors\MissingComponentException;
 use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use DateTime;
@@ -242,14 +243,19 @@ class SentEmail extends Element
     }
 
     /**
-     * @inheritdoc
+     * @param string $attribute
+     *
+     * @return string
+     * @throws MissingComponentException
      */
     public function getTableAttributeHtml(string $attribute): string
     {
         switch ($attribute) {
             case 'preview':
 
-                $previewUrl = UrlHelper::cpUrl('sprout-email/notifications/preview/sent/'.$this->id);
+                $pluginHandle = Craft::$app->getSession()->get('sprout.sentEmail.pluginHandle');
+
+                $previewUrl = UrlHelper::cpUrl($pluginHandle.'/sent-email/preview/'.$this->id);
 
                 return '<a class="email-preview" '.
                     'data-email-id="'.$this->id.'" '.
@@ -265,6 +271,7 @@ class SentEmail extends Element
                                 data-email-id="'.$this->id.'">'.
                     Craft::t('sprout-base-sent-email', 'Prepare').
                     '</a>';
+
                 break;
 
             case 'info':

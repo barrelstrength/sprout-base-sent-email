@@ -224,9 +224,12 @@ class SentEmailController extends Controller
         $emailId = Craft::$app->getRequest()->getBodyParam('emailId');
         $sentEmail = Craft::$app->elements->getElementById($emailId, SentEmail::class);
 
+        $pluginHandle = Craft::$app->getSession()->get('sprout.sentEmail.pluginHandle');
+
         $content = Craft::$app->getView()->renderTemplate(
-            'sprout-base-email/_modals/sentemails/prepare-resend-email', [
-            'sentEmail' => $sentEmail
+            'sprout-base-sent-email/_modals/prepare-resend-email', [
+            'sentEmail' => $sentEmail,
+            'pluginHandle' => $pluginHandle,
         ]);
 
         $response = new ModalResponse();
