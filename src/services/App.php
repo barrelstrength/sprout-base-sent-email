@@ -16,8 +16,14 @@ class App extends Component
      */
     public $sentEmails;
 
+    /**
+     * @var Settings
+     */
+    public $settings;
+
     public function init()
     {
         $this->sentEmails = new SentEmails();
+        $this->settings = new Settings();
     }
 }

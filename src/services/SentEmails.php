@@ -9,10 +9,9 @@ namespace barrelstrength\sproutbasesentemail\services;
 
 use barrelstrength\sproutbase\jobs\PurgeElements;
 use barrelstrength\sproutbase\SproutBase;
-use barrelstrength\sproutbaseemail\models\Settings;
 use barrelstrength\sproutbasesentemail\elements\SentEmail;
 use barrelstrength\sproutbasesentemail\models\SentEmailInfoTable;
-use barrelstrength\sproutemail\SproutEmail;
+use barrelstrength\sproutbasesentemail\SproutBaseSentEmail;
 use Craft;
 use craft\base\Component;
 use craft\base\Plugin;
@@ -191,22 +190,14 @@ class SentEmails extends Component
             $toEmail = ($res = array_keys($to)) ? $res[0] : '';
         }
 
-        // Make sure we should be saving Sent Emails
-        // -----------------------------------------------------------
-        $plugin = Craft::$app->getPlugins()->getPlugin('sprout-email');
+        $sentEmailSettings = SproutBaseSentEmail::$app->settings->getSentEmailSettings();
 
-        if ($plugin) {
-            /**
-             * @var $settings Settings
-             */
-            $settings = $plugin->getSettings();
-
-            if ($settings != null AND !$settings->enableSentEmails) {
-                return false;
-            }
-
-            $this->cleanUpSentEmails();
+        if (!$sentEmailSettings->enableSentEmails) {
+            return false;
         }
+
+        $this->cleanUpSentEmails();
+
 
         // decode subject if it is encoded
         $isEncoded = preg_match("/=\?UTF-8\?B\?(.*)\?=/", $message->getSubject(), $matches);
@@ -278,12 +269,9 @@ class SentEmails extends Component
      */
     public function cleanUpSentEmails($force = false): bool
     {
-        /** @var SproutEmail $plugin */
-        $plugin = Craft::$app->getPlugins()->getPlugin('sprout-email');
+        $sentEmailSettings = SproutBaseSentEmail::$app->settings->getSentEmailSettings();
 
-        /** @var Settings $settings */
-        $settings = $plugin->getSettings();
-        $probability = (int)$settings->cleanupProbability;
+        $probability = (int)$sentEmailSettings->cleanupProbability;
 
         // See Craft Garbage collection treatment of probability
         // https://docs.craftcms.com/v3/gc.html
@@ -293,8 +281,8 @@ class SentEmails extends Component
         }
 
         // Default to 5000 if no integer is found in settings
-        $sentEmailsLimit = is_int((int)$settings->sentEmailsLimit)
-            ? (int)$settings->sentEmailsLimit
+        $sentEmailsLimit = is_int((int)$sentEmailSettings->sentEmailsLimit)
+            ? (int)$sentEmailSettings->sentEmailsLimit
             : static::SENT_EMAIL_DEFAULT_LIMIT;
 
         if ($sentEmailsLimit <= 0) {

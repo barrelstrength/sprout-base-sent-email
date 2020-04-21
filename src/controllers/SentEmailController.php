@@ -7,13 +7,16 @@
 
 namespace barrelstrength\sproutbasesentemail\controllers;
 
+use barrelstrength\sproutbase\SproutBase;
 use barrelstrength\sproutbaseemail\models\ModalResponse;
 use barrelstrength\sproutbaseemail\models\SimpleRecipient;
 use barrelstrength\sproutbaseemail\models\SimpleRecipientList;
 use barrelstrength\sproutbasesentemail\elements\SentEmail;
+use barrelstrength\sproutbasesentemail\models\Settings as SproutBaseSentEmailSettings;
 use barrelstrength\sproutbasesentemail\services\SentEmails;
 use barrelstrength\sproutbasesentemail\SproutBaseSentEmail;
 use Craft;
+use craft\errors\MissingComponentException;
 use craft\mail\Mailer;
 use craft\mail\Message;
 use craft\web\Controller;
@@ -31,6 +34,15 @@ use yii\web\Response;
 
 class SentEmailController extends Controller
 {
+    private $permissions = [];
+
+    public function init()
+    {
+        $this->permissions = SproutBase::$app->settings->getPluginPermissions(new SproutBaseSentEmailSettings(), 'sprout-sent-email');
+
+        parent::init();
+    }
+
     /**
      * Re-sends a Sent Email
      *
@@ -39,12 +51,11 @@ class SentEmailController extends Controller
      * @throws Throwable
      * @throws BadRequestHttpException
      * @todo - update to use new EmailElement::getRecipients() syntax
-     *
      */
     public function actionResendEmail()
     {
         $this->requirePostRequest();
-        $this->requirePermission('sproutEmail-resendEmails');
+        $this->requirePermission($this->permissions['sproutSentEmail-resendEmails']);
 
         $emailId = Craft::$app->request->getBodyParam('emailId');
         /**
