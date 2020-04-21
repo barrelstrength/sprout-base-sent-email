@@ -2,9 +2,11 @@ const mix = require('laravel-mix');
 
 mix
   .sass(
-    'src/web/assets/redirects/src/scss/sent-email.scss',
-    'src/web/assets/redirects/dist/css/sent-email.css',
-  );
+    'src/web/assets/sentemail/src/scss/sent-email.scss',
+    'src/web/assets/sentemail/dist/css/sent-email.css',
+  )
+  .copy('src/web/assets/sentemail/src/images',
+    'src/web/assets/sentemail/dist/images');
 
 // Full API
 // mix.js(src, output);
