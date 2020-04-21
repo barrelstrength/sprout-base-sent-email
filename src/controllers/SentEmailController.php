@@ -44,6 +44,26 @@ class SentEmailController extends Controller
     }
 
     /**
+     * @param string $pluginHandle
+     * @param null   $siteHandle
+     *
+     * @return Response
+     * @throws ForbiddenHttpException
+     * @throws MissingComponentException
+     */
+    public function actionSentEmailIndexTemplate(string $pluginHandle, $siteHandle = null): Response
+    {
+        $this->requirePermission($this->permissions['sproutSentEmail-viewSentEmail']);
+
+        Craft::$app->getSession()->set('sprout.sentEmail.pluginHandle', $pluginHandle);
+
+        return $this->renderTemplate('sprout-base-sent-email/sent-email/index', [
+            'pluginHandle' => $pluginHandle,
+            'isPro' => SproutBaseSentEmail::$app->settings->isPro()
+        ]);
+    }
+
+    /**
      * Re-sends a Sent Email
      *
      * @return bool|Response
