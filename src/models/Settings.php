@@ -26,7 +26,7 @@ class Settings extends Model implements SproutSettingsInterface, SharedPermissio
     /**
      * @var int
      */
-    public $sentEmailsLimit;
+    public $sentEmailsLimit = 5000;
 
     /**
      * @var int
