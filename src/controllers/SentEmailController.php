@@ -148,7 +148,7 @@ class SentEmailController extends Controller
                 $email->setTextBody($sentEmail->body);
                 $email->setHtmlBody($sentEmail->htmlBody);
 
-                $infoTable = SproutBaseSentEmail::$app->sentEmails->createInfoTableModel('sprout-email');
+                $infoTable = SproutBaseSentEmail::$app->sentEmails->createInfoTableModel('sprout-sent-email');
 
                 $emailTypes = $infoTable->getEmailTypes();
                 $infoTable->emailType = $emailTypes['Resent'];
