@@ -34,6 +34,7 @@ class SproutBaseSentEmail extends Module
 {
     /**
      * This Pro Edition value will be used to test for all pro plugins:
+     * - Sprout Email Pro
      * - Sprout Sent Email Pro
      */
     const EDITION_PRO = 'pro';
