@@ -3,10 +3,10 @@
 <div class="sproutemail-sentemail-header">
     <div class="btngroup sentemail-btngroup">
         <button data-box="html"
-            class="btn active sentemail-btn">{{ 'HTML'|t('sprout-email') }}
+            class="btn active sentemail-btn">{{ 'HTML'|t('sprout-base-sent-email') }}
         </button>
         <button data-box="text"
-            class="btn sentemail-btn">{{ 'Text'|t('sprout-email') }}
+            class="btn sentemail-btn">{{ 'Text'|t('sprout-base-sent-email') }}
         </button>
     </div>
 </div>
@@ -19,7 +19,7 @@
             src="data:text/html;charset=utf-8,{{ htmlBody|raw|url_encode }}"></iframe>
 
     {% else %}
-        <h3>{{ "No HTML content"|t('sprout-email') }}</h3>
+        <h3>{{ "No HTML content"|t('sprout-base-sent-email') }}</h3>
     {% endif %}
 
 </div>
@@ -29,7 +29,7 @@
     {% if body is not empty %}
         <pre>{{ body }}</pre>
     {% else %}
-        <h3>{{ "No Text content"|t('sprout-email') }}</h3>
+        <h3>{{ "No Text content"|t('sprout-base-sent-email') }}</h3>
     {% endif %}
 
 </div>
