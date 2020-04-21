@@ -43,7 +43,7 @@ class Settings extends Model implements SproutSettingsInterface, SharedPermissio
                 'label' => Craft::t('sprout-base-sent-email', 'General'),
                 'url' => 'sprout-sent-email/settings/general',
                 'selected' => 'general',
-                'template' => 'sprout-base-email/settings/general'
+                'template' => 'sprout-base-sent-email/settings/general'
             ],
             'sent-email' => [
                 'label' => Craft::t('sprout-base-sent-email', 'Sent Email'),

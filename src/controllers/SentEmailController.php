@@ -261,7 +261,7 @@ class SentEmailController extends Controller
         $sentEmail = Craft::$app->elements->getElementById($sentEmailId, SentEmail::class);
 
         $content = Craft::$app->getView()->renderTemplate(
-            'sprout-base-email/_modals/sentemails/info-table', [
+            'sprout-base-sent-email/_modals/info-table', [
             'info' => $sentEmail->getInfo()
         ]);
 
