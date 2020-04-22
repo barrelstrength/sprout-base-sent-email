@@ -2,7 +2,6 @@
 
 namespace barrelstrength\sproutbasesentemail\migrations;
 
-use barrelstrength\sproutbaseemail\migrations\m200219_000000_clean_up_cc_bcc_emailList_fields;
 use craft\db\Migration;
 
 class m200411_000000_update_sent_email_element_type_class extends Migration
@@ -24,6 +23,7 @@ class m200411_000000_update_sent_email_element_type_class extends Migration
                 'type' => $element['newType']
             ], ['type' => $element['oldType']], [], false);
         }
+
         return true;
     }
 

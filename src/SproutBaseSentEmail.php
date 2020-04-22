@@ -7,11 +7,9 @@
 
 namespace barrelstrength\sproutbasesentemail;
 
-use barrelstrength\sproutbase\SproutBase;
 use barrelstrength\sproutbase\SproutBaseHelper;
 use barrelstrength\sproutbaseemail\SproutBaseEmailHelper;
 use barrelstrength\sproutbasesentemail\controllers\SentEmailController;
-use barrelstrength\sproutbasesentemail\models\Settings as SproutBaseSentEmailSettings;
 use barrelstrength\sproutbasesentemail\services\App;
 use Craft;
 use craft\events\RegisterTemplateRootsEvent;
