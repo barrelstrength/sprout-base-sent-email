@@ -8,6 +8,7 @@
 namespace barrelstrength\sproutbasesentemail\migrations;
 
 use barrelstrength\sproutbase\records\Settings as SproutBaseSettingsRecord;
+use barrelstrength\sproutbasesentemail\elements\SentEmail;
 use barrelstrength\sproutbasesentemail\models\Settings;
 use barrelstrength\sproutbasesentemail\models\Settings as SproutSentEmailSettings;
 use barrelstrength\sproutbasesentemail\records\SentEmail as SentEmailRecord;
@@ -50,8 +51,12 @@ class Install extends Migration
 
     public function safeDown()
     {
+        // Delete Sent Email Elements
+        $this->delete(Table::ELEMENTS, ['type', SentEmail::class]);
+
         // Delete Sent Email Table
         $this->dropTableIfExists(SentEmailRecord::tableName());
+        $this->removeSharedSettings();
     }
 
     public function insertDefaultSettings()
@@ -73,6 +78,21 @@ class Install extends Migration
             ];
 
             $this->insert(SproutBaseSettingsRecord::tableName(), $settingsArray);
+        }
+    }
+
+    public function removeSharedSettings()
+    {
+        $settingsExist = (new Query())
+            ->select(['*'])
+            ->from([SproutBaseSettingsRecord::tableName()])
+            ->where(['model' => SproutSentEmailSettings::class])
+            ->exists();
+
+        if ($settingsExist) {
+            $this->delete(SproutBaseSettingsRecord::tableName(), [
+                'model' => SproutSentEmailSettings::class
+            ]);
         }
     }
 }
