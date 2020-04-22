@@ -230,6 +230,7 @@ class SentEmailController extends Controller
             'sprout-base-sent-email/_modals/prepare-resend-email', [
             'sentEmail' => $sentEmail,
             'pluginHandle' => $pluginHandle,
+            'isPro' => SproutBaseSentEmail::$app->settings->isPro()
         ]);
 
         $response = new ModalResponse();

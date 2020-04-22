@@ -1,9 +1,23 @@
 {% extends "sprout-base-sent-email/_layouts/elementindex" %}
+{% import 'sprout-base/_includes/sproutcp' as sprout %}
 
-{% extends "sprout-base-email/_layouts/elementindex" %}
+{% do view.registerAssetBundle("barrelstrength\\sproutbase\\web\\assets\\cp\\CpAsset") %}
 
 {% set title = "Sent Email"|t('sprout-base-sent-email') %}
 {% set elementType = 'barrelstrength\\sproutbasesentemail\\elements\\SentEmail' %}
+
+{% block actionButton %}
+
+    {% if not isPro %}
+        <div class="buttons">
+            {{ sprout.upgradeToProButton({
+                url: cpUrl(pluginHandle~'/upgrade'),
+                title: "Upgrade to Sprout Sent Email PRO to manage Resend Emails"|t('sprout-base-sent-email')
+            }) }}
+        </div>
+    {% endif %}
+
+{% endblock %}
 
 {% block sidebar %}
 
