@@ -7,7 +7,8 @@
 
 namespace barrelstrength\sproutbasesentemail\controllers;
 
-use barrelstrength\sproutbase\SproutBase;
+use barrelstrength\sproutbase\base\SharedPermissionsInterface;
+use barrelstrength\sproutbase\controllers\SharedController;
 use barrelstrength\sproutbaseemail\models\ModalResponse;
 use barrelstrength\sproutbaseemail\models\SimpleRecipient;
 use barrelstrength\sproutbaseemail\models\SimpleRecipientList;
@@ -19,7 +20,6 @@ use Craft;
 use craft\errors\MissingComponentException;
 use craft\mail\Mailer;
 use craft\mail\Message;
-use craft\web\Controller;
 use Egulias\EmailValidator\EmailValidator;
 use Egulias\EmailValidator\Validation\MultipleValidationWithAnd;
 use Egulias\EmailValidator\Validation\RFCValidation;
@@ -28,37 +28,52 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use yii\base\Exception;
+use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
-class SentEmailController extends Controller
+class SentEmailController extends SharedController
 {
-    private $permissions = [];
-
+    /**
+     * @throws MissingComponentException
+     * @throws InvalidConfigException
+     */
     public function init()
     {
-        $this->permissions = SproutBase::$app->settings->getPluginPermissions(new SproutBaseSentEmailSettings(), 'sprout-sent-email');
-
         parent::init();
+
+        Craft::$app->getSession()->set('sprout.sentEmail.pluginHandle', $this->pluginHandle);
     }
 
     /**
-     * @param string $pluginHandle
-     * @param null   $siteHandle
+     * @return string
+     */
+    public function getDefaultPluginHandle(): string
+    {
+        return 'sprout-sent-email';
+    }
+
+    /**
+     * @return SharedPermissionsInterface|SproutBaseSentEmailSettings|null
+     */
+    public function getSharedSettingsModel()
+    {
+        return new SproutBaseSentEmailSettings();
+    }
+
+    /**
+     * @param null $siteHandle
      *
      * @return Response
      * @throws ForbiddenHttpException
-     * @throws MissingComponentException
      */
-    public function actionSentEmailIndexTemplate(string $pluginHandle, $siteHandle = null): Response
+    public function actionSentEmailIndexTemplate($siteHandle = null): Response
     {
         $this->requirePermission($this->permissions['sproutSentEmail-viewSentEmail']);
 
-        Craft::$app->getSession()->set('sprout.sentEmail.pluginHandle', $pluginHandle);
-
         return $this->renderTemplate('sprout-base-sent-email/sent-email/index', [
-            'pluginHandle' => $pluginHandle,
+            'pluginHandle' => $this->pluginHandle,
             'isPro' => SproutBaseSentEmail::$app->settings->isPro()
         ]);
     }
