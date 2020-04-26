@@ -122,7 +122,9 @@ class SentEmails extends Component
             $infoTable->deliveryStatus = $deliveryStatuses['Sent'];
         } else {
             $infoTable->deliveryStatus = $deliveryStatuses['Error'];
-            $infoTable->message = $message;
+
+            // @todo - improve flow so we can give a better error message
+            $infoTable->message = Craft::t('sprout-base-sent-email', 'Unable to send message.');
         }
 
         $this->saveSentEmail($message, $infoTable);
