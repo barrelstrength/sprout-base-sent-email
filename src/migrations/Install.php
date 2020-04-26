@@ -52,7 +52,7 @@ class Install extends Migration
     public function safeDown()
     {
         // Delete Sent Email Elements
-        $this->delete(Table::ELEMENTS, ['type', SentEmail::class]);
+        $this->delete(Table::ELEMENTS, ['type' => SentEmail::class]);
 
         // Delete Sent Email Table
         $this->dropTableIfExists(SentEmailRecord::tableName());
