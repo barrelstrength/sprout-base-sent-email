@@ -12,10 +12,10 @@
   ],
   "support": {
     "email": "sprout@barrelstrengthdesign.com",
-    "issues": "https://github.com/barrelstrength/sprout-base-redirects/issues?state=open",
-    "source": "https://github.com/barrelstrength/sprout-base-redirects",
-    "docs": "https://sprout.barrelstrengthdesign.com/craft-plugins/seo/docs",
-    "rss": "https://github.com/barrelstrength/sprout-base-redirects/commits/v2.atom"
+    "issues": "https://github.com/barrelstrength/sprout-base-sent-email/issues?state=open",
+    "source": "https://github.com/barrelstrength/sprout-base-sent-email",
+    "docs": "https://sprout.barrelstrengthdesign.com/craft-plugins/sent-email/docs",
+    "rss": "https://github.com/barrelstrength/sprout-base-sent-email/commits/v2.atom"
   },
   "require": {
     "craftcms/cms": "^3.4.0",

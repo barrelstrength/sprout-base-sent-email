@@ -1,4 +1,4 @@
-# Sprout Base Redirects
+# Sprout Base Sent Email
 
 A collection of common sent email classes and libraries for the Sprout Plugins Suite for Craft CMS.
 
