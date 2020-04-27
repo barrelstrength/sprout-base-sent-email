@@ -1,5 +1,13 @@
 {% import "_includes/forms" as forms %}
 
+{% macro configWarning(setting) -%}
+    {{ "This is being overridden by the {setting} config setting."|t('sprout-forms-google-recaptcha', {
+        setting: setting
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
 <input type="hidden" name="sproutBaseSettingsType" value="{{ className(settings) }}">
 
 {{ forms.lightswitchField({
@@ -7,7 +15,8 @@
     instructions: "Disable Sent Email tracking to remove them from the sidebar navigation and make them no longer accessible in the Control Panel."|t('sprout-base-sent-email'),
     name: 'enableSentEmails',
     on: settings.enableSentEmails,
-    first: true
+    first: true,
+    warning: config.enableSentEmails is defined ? configWarning('enableSentEmails')
 }) }}
 
 <div id="settings-total-sentEmailsLimit">
@@ -18,7 +27,8 @@
         size:'10',
         placeholder: '5000',
         value: settings.sentEmailsLimit,
-        errors: ''
+        errors: '',
+        warning: config.sentEmailsLimit is defined ? configWarning('sentEmailsLimit')
     }) }}
 
     {{ forms.selectField({
@@ -35,6 +45,7 @@
             { value: '10', label: '1 in 100,000' },
             { value: '1', label: '1 in 1,000,000' }
         ],
-        value: settings.cleanupProbability
+        value: settings.cleanupProbability,
+        warning: config.cleanupProbability is defined ? configWarning('cleanupProbability')
     }) }}
 </div>
