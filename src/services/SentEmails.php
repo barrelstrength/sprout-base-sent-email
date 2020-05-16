@@ -219,9 +219,13 @@ class SentEmails extends Component
         $sentEmail->fromName = $fromName;
         $sentEmail->toEmail = $toEmail;
 
+        $body = $message->getSwiftMessage()->getBody();
         $children = $message->getSwiftMessage()->getChildren();
 
-        if ($children) {
+        if ($body) {
+            $sentEmail->htmlBody = $body;
+            $sentEmail->body = $body;
+        } else if ($children) {
             foreach ($children as $child) {
                 if ($child->getContentType() == 'text/html') {
                     $sentEmail->htmlBody = $child->getBody();
@@ -230,14 +234,6 @@ class SentEmails extends Component
                 if ($child->getContentType() == 'text/plain') {
                     $sentEmail->body = $child->getBody();
                 }
-            }
-        } else {
-            // Get body from message
-            $body = $message->getSwiftMessage()->getBody();
-
-            if ($body) {
-                $sentEmail->htmlBody = $body;
-                $sentEmail->body = $body;
             }
         }
 
