@@ -1,6 +1,6 @@
 <?php
 
-namespace barrelstrength\sproutbasesentemail\web\assets\email;
+namespace barrelstrength\sproutbasesentemail\web\assets\sentemail;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
